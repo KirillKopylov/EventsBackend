@@ -8,5 +8,6 @@ return [
     'userNotExists' => 'User with provided id does not exists',
     'unableToFetchUser' => 'Unable to fetch user',
     'userUpdated' => 'User successfully updated',
-    'userNotUpdated' => 'Unable to update user'
+    'userNotUpdated' => 'Unable to update user',
+    'unableToFetchUsers' => 'Unable to fetch users'
 ];

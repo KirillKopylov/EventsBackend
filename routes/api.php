@@ -13,6 +13,7 @@ Route::namespace('App\Http\Controllers\Users')
         Route::get('get-user/{id}', 'UserController@getUser')
             ->where('id', '[0-9]+');
         Route::patch('update-user', 'UserController@updateUser');
+        Route::get('get-users', 'UserController@getUsers');
     });
 
 Route::namespace('App\Http\Controllers\Events')
@@ -25,4 +26,7 @@ Route::namespace('App\Http\Controllers\Events')
         Route::get('get-event/{id}', 'EventController@getEvent')
             ->where('id', '[0-9]+');
         Route::patch('update-event', 'EventController@updateEvent');
+        Route::get('get-events', 'EventController@getEvents');
+        Route::get('get-event-members/{id}', 'EventController@getEventMembers')
+            ->where('id', '[0-9]+');
     });

@@ -1,11 +1,12 @@
 <?php
 
 
-namespace App\Http\Services;
+namespace App\Http\Services\Users;
 
 
 use App\Models\EventUser;
 use Illuminate\Http\JsonResponse;
+use App\Http\Services\Helpers\ResponseService;
 use Exception;
 
 class UserService
@@ -13,8 +14,11 @@ class UserService
     public function createUser(array $userData): JsonResponse
     {
         try {
-            EventUser::create($userData);
-            return ResponseService::successResponse(__('users_crud.userCreated'));
+            $user = EventUser::create($userData);
+            return ResponseService::successResponse([
+                'message' => __('users_crud.userCreated'),
+                'id' => $user->id
+            ], 200, 'response');
         } catch (Exception $exception) {
             return ResponseService::errorResponse(__('users_crud.userNotCreated'));
         }
@@ -56,6 +60,16 @@ class UserService
             return ResponseService::successResponse(__('users_crud.userUpdated'));
         } catch (Exception $exception) {
             return ResponseService::errorResponse(__('users_crud.userNotUpdated'));
+        }
+    }
+
+    public function getUsers(): JsonResponse
+    {
+        try {
+            $users = EventUser::paginate();
+            return ResponseService::successResponse($users, 200, 'users');
+        } catch (Exception $exception) {
+            return ResponseService::errorResponse(__('users_crud.unableToFetchUsers'));
         }
     }
 }

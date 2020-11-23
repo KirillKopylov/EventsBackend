@@ -8,5 +8,6 @@ return [
     'eventNotExists' => 'Event with provided id does not exists',
     'unableToFetchEvent' => 'Unable to fetch event',
     'eventUpdated' => 'Event successfully updated',
-    'eventNotUpdated' => 'Unable to update event'
+    'eventNotUpdated' => 'Unable to update event',
+    'unableToFetchEvents' => 'Unable to fetch events'
 ];

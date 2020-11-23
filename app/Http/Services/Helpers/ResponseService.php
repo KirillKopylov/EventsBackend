@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\Services;
+namespace App\Http\Services\Helpers;
 
 
 use Illuminate\Http\JsonResponse;
