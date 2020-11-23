@@ -7,6 +7,10 @@ namespace App\Http\Services\Users;
 use App\Models\EventUser;
 use Illuminate\Http\JsonResponse;
 use App\Http\Services\Helpers\ResponseService;
+use Illuminate\Support\Facades\Mail;
+use App\Models\Event;
+use Illuminate\Support\Facades\DB;
+use App\Mail\EventMemberAdded;
 use Exception;
 
 class UserService
@@ -14,11 +18,16 @@ class UserService
     public function createUser(array $userData): JsonResponse
     {
         try {
-            $user = EventUser::create($userData);
-            return ResponseService::successResponse([
-                'message' => __('users_crud.userCreated'),
-                'id' => $user->id
-            ], 200, 'response');
+            return DB::transaction(function () use ($userData) {
+                $user = EventUser::create($userData);
+                $eventName = Event::whereId($user->event_id)->first();
+                Mail::to($user->email)
+                    ->queue(new EventMemberAdded("{$user->first_name} {$user->last_name}", $eventName->title));
+                return ResponseService::successResponse([
+                    'message' => __('users_crud.userCreated'),
+                    'id' => $user->id
+                ], 200, 'response');
+            });
         } catch (Exception $exception) {
             return ResponseService::errorResponse(__('users_crud.userNotCreated'));
         }
