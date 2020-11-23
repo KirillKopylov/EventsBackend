@@ -24,11 +24,14 @@ class UserTest extends TestCase
 
     private function createEvent()
     {
-        return $this->put('api/events/create-event', [
+        return $this
+            ->put('api/events/create-event', [
             'title' => $this->faker->catchPhrase,
             'date' => $this->faker->dateTimeThisYear->format('Y-m-d h:i:s'),
             'city' => $this->faker->city,
-        ])->decodeResponseJson()['response']['id'];
+        ])
+            ->assertStatus(200)
+            ->decodeResponseJson()['response']['id'];
     }
 
     /**
